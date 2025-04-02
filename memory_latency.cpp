@@ -128,11 +128,12 @@ int main(int argc, char* argv[])
             arr[i] = i ^ 0xdeadbeef;
         }
         auto actual_size = actual_bytes_size / sizeof(array_element_t);
-        struct measurement random_measurement = measure_latency(repeat, arr, actual_size, zero);
         struct measurement sequential_measurement = measure_sequential_latency(repeat, arr, actual_size, zero);
-
-        double random_offset = random_measurement.access_time - random_measurement.baseline;
+        struct measurement random_measurement = measure_latency(repeat, arr, actual_size, zero);
+    
         double sequential_offset = sequential_measurement.access_time - sequential_measurement.baseline;
+        double random_offset = random_measurement.access_time - random_measurement.baseline;
+       
         printf("%lu,%.2f,%.2f\n", arr_size, random_offset, sequential_offset);
 
         // Avoid infinite loops where factor is low

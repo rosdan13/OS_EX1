@@ -1,0 +1,45 @@
+elyas, rosdan13
+Elyasaf Nachum (208067603), Daniel Rosenzweig (207131079)
+EX: 1
+
+FILES:
+memory_latency.cpp 	-- measures sequential latency access
+Makefile 		-- makefile for the project
+Figure_1.png 		-- plot of the results
+lscpu.png 		-- a screenshot of lscpu command
+
+REMARKS:
+These are some remarks that
+I want the graders to know
+about this submission:
+Nothing.
+
+ANSWERS:
+
+Q1:
+
+We analyzed the strace output of ./WhatIDo` to understand what the program is doing. Here's what we found:
+
+Starting Up:
+- The chmod command is executed with our arguments
+- System loads needed libraries and sets up memory
+
+Checking and Changing Permissions:
+- Current file permissions are checked: st_mode=S_IFREG|0664 (rw-rw-r--)
+- The program changes permissions using: fchmodat(AT_FDCWD, "./WhatIDo", 0764) = 0
+- This changes permissions to 0764 (rwxrw-r--), which means:
+
+-- Owner (first digit 7): read (4) + write (2) + execute (1) = 7
+-- Group (second digit 6): read (4) + write (2) = 6
+-- Others (third digit 4): read (4) only
+
+Finishing Up:
+- Program closes standard output (file descriptor 1): close(1) = 0
+- Program closes standard error (file descriptor 2): close(2) = 0
+- Exits with success code 0
+
+A Tiny Summary;
+The command `./WhatIDo` adds execute permission for the file owner while keeping the existing read and write permissions.
+The file starts with permissions 0664 (rw-rw-r--) and ends with 0764 (rwxrw-r--).
+This shows how chmod works in Linux - it takes our symbolic notation (+700) and translates it to the appropriate
+ permission bits before applying the change through the fchmodat() system call.

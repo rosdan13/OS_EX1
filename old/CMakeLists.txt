@@ -4,7 +4,7 @@ project(EX1)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(EX1
-        measure.h
-        measure.cpp
+        ../measure.h
+        ../measure.cpp
         memory_latency.cpp
-        memory_latency.h)
+        ../memory_latency.h)
